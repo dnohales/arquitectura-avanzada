@@ -1,0 +1,10 @@
+root { 
+    display: block;
+}
+
+@media screen and (min-width: 980px) {
+	body {
+		padding-top: 40px;
+	}
+}
+

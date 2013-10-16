@@ -1,0 +1,15 @@
+login:
+    pattern:   /login
+    defaults:  { _controller: CaecePicBundle:Login:login }
+    
+login_check:
+    pattern:   /login_check
+
+logout:
+    pattern:   /logout
+
+caece_pic:
+    resource: "@CaecePicBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
