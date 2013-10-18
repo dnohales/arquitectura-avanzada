@@ -8,10 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @author Damián Nohales <damiannohales@uxorit.com>
  * 
- * @ORM\Entity
- * @ORM\Table(indexes={
- *     @ORM\Index(name="channel_idx", columns={"channel"})
- * })
+ * @ORM\Entity(repositoryClass="ChannelReadingRepository")
  */
 class ChannelReading
 {
@@ -32,9 +29,9 @@ class ChannelReading
     private $readedAt;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\ManyToOne(targetEntity="Channel")
      *
-     * @var int el número de canal leído
+     * @var Channel el canal leído
      */
     private $channel;
 
@@ -44,13 +41,6 @@ class ChannelReading
      * @var int los datos leídos en crudo, esto es, un número del 1 al 1024
      */
     private $rawData;
-
-    /**
-     * @ORM\Column(type="string", length=32, nullable=true)
-     *
-     * @var string los datos convertidos a su valor representativo
-     */
-    private $convertedData;
 
     public function __construct()
     {
@@ -77,7 +67,7 @@ class ChannelReading
         return $this->channel;
     }
 
-    public function setChannel($channel)
+    public function setChannel(Channel $channel)
     {
         $this->channel = $channel;
     }
@@ -94,12 +84,7 @@ class ChannelReading
 
     public function getConvertedData()
     {
-        return $this->convertedData;
-    }
-
-    public function setConvertedData($convertedData)
-    {
-        $this->convertedData = $convertedData;
+        return $this->getChannel()->getSensor()->convertRawData($this->getRawData());
     }
 
 }
