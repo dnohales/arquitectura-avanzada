@@ -1,0 +1,9 @@
+settings:
+    notify_email_address: pic@example.com
+    sample_interval: 10
+    light_start_time:
+    light_end_time:
+    channels:
+        1:
+             active: true
+             sensor_class_name: bla\bla

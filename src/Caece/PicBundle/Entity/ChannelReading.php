@@ -29,9 +29,9 @@ class ChannelReading
     private $readedAt;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Channel")
+     * @ORM\Column(type="smallint")
      *
-     * @var Channel el canal leído
+     * @var int el canal leído
      */
     private $channel;
 
@@ -67,7 +67,7 @@ class ChannelReading
         return $this->channel;
     }
 
-    public function setChannel(Channel $channel)
+    public function setChannel($channel)
     {
         $this->channel = $channel;
     }
@@ -81,10 +81,4 @@ class ChannelReading
     {
         $this->rawData = $rawData;
     }
-
-    public function getConvertedData()
-    {
-        return $this->getChannel()->getSensor()->convertRawData($this->getRawData());
-    }
-
 }

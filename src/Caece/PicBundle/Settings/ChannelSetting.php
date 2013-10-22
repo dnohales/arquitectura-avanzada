@@ -1,53 +1,37 @@
 <?php
-namespace Caece\PicBundle\Entity;
-
-use Caece\PicBundle\PicSensor\Sensor\SensorInterface;
-use Caece\PicBundle\PicSensor\Sensor\SensorManager;
-use Doctrine\ORM\Mapping as ORM;
+namespace Caece\PicBundle\Settings;
 
 /**
- * Description of Channel
+ * Description of ChannelSettings
  *
  * @author Damián Nohales <damiannohales@uxorit.com>
- * 
- * @ORM\Entity(repositoryClass="ChannelRepository")
  */
-class Channel
+class ChannelSetting
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     *
+    /*
      * @var int
      */
-    private $id;
+    private $number;
     
     /**
-     * @ORM\Column(type="smallint")
-     *
-     * @var int
-     */
-    private $hardwareChannelNumber;
-    
-    /**
-     * @ORM\Column(type="string", length=255)
-     *
      * @var string
      */
     private $sensorClassName;
     
     /**
-     * @ORM\Column(type="boolean")
-     *
      * @var bool
      */
     private $active;
     
-    public function getId()
-    {
-        return $this->id;
-    }
+    /**
+     * @var int
+     */
+    private $beginThreshold;
+    
+    /**
+     * @var int
+     */
+    private $endThreshold;
     
     /**
      * Método conveniente para crear una lectura para el presente canal.
@@ -58,22 +42,22 @@ class Channel
     public function createReading($rawData)
     {
         $reading = new ChannelReading();
-        $reading->setChannel($this);
+        $reading->setChannel($this->number);
         $reading->setRawData($rawData);
         
         return $reading;
     }
 
-    public function getHardwareChannelNumber()
+    public function getNumber()
     {
-        return $this->hardwareChannelNumber;
+        return $this->number;
     }
 
-    public function setHardwareChannelNumber($hardwareChannelNumber)
+    public function setNumber($number)
     {
-        $this->hardwareChannelNumber = $hardwareChannelNumber;
+        $this->number = $number;
     }
-
+    
     public function getSensorClassName()
     {
         return $this->sensorClassName;
@@ -93,7 +77,7 @@ class Channel
         return SensorManager::getInstance()->getSensorByClassName($this->getSensorClassName());
     }
 
-    public function getActive()
+    public function isActive()
     {
         return $this->active;
     }
@@ -101,6 +85,26 @@ class Channel
     public function setActive($active)
     {
         $this->active = $active;
+    }
+    
+    public function getBeginThreshold()
+    {
+        return $this->beginThreshold;
+    }
+
+    public function setBeginThreshold($beginThreshold)
+    {
+        $this->beginThreshold = $beginThreshold;
+    }
+
+    public function getEndThreshold()
+    {
+        return $this->endThreshold;
+    }
+
+    public function setEndThreshold($endThreshold)
+    {
+        $this->endThreshold = $endThreshold;
     }
 
 }
