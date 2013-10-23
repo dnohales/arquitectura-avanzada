@@ -1,6 +1,8 @@
 <?php
 namespace Caece\PicBundle\Settings;
 
+use Symfony\Component\Validator\Constraints as Assert;
+
 /**
  * Description of Settings
  *
@@ -10,11 +12,18 @@ class Settings
 {
     /**
      * @var string
+     * 
+     * @Assert\Email()
      */
     private $notifyEmailAddress;
     
     /**
      * @var int
+     * 
+     * @Assert\Range({
+     *     "min" = 1,
+     *     "max" = 100
+     * })
      */
     private $sampleInterval;
     
@@ -24,14 +33,29 @@ class Settings
     private $channels;
     
     /**
-     * @var \DateTime
+     * @var string
+     * 
+     * @Assert\Range({
+     *     "min" = 0,
+     *     "max" = 2359
+     * })
      */
     private $lightStartTime;
     
     /**
-     * @var \DateTime
+     * @var string
+     * 
+     * @Assert\Range({
+     *     "min" = 0,
+     *     "max" = 2359
+     * })
      */
     private $lightEndTime;
+    
+    /**
+     * @var bool 
+     */
+    private $lightScheduleEnabled;
     
     public function __construct()
     {
@@ -73,7 +97,7 @@ class Settings
         return $this->lightStartTime;
     }
 
-    public function setLightStartTime(\DateTime $lightStartTime)
+    public function setLightStartTime($lightStartTime)
     {
         $this->lightStartTime = $lightStartTime;
     }
@@ -83,9 +107,19 @@ class Settings
         return $this->lightEndTime;
     }
 
-    public function setLightEndTime(\DateTime $lightEndTime)
+    public function setLightEndTime($lightEndTime)
     {
         $this->lightEndTime = $lightEndTime;
+    }
+    
+    public function getLightScheduleEnabled()
+    {
+        return $this->lightScheduleEnabled;
+    }
+
+    public function setLightScheduleEnabled($lightScheduleEnabled)
+    {
+        $this->lightScheduleEnabled = $lightScheduleEnabled;
     }
 
 }

@@ -7,3 +7,6 @@ settings:
         1:
              active: true
              sensor_class_name: bla\bla
+        2:
+             active: false
+             sensor_class_name: bla\bla2

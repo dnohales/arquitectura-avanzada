@@ -1,0 +1,29 @@
+{% block collection_widget %}
+    <div id="{{ form.vars.id }}" class="channel-collection">
+        {% for item_form in form %}
+            <div class="channel-collection-item">
+                <div class="form-row">
+                    <div class="pull-right">
+                        <div class="onoffswitch">
+                            {{ form_widget(item_form.active, {"attr": {"class": "onoffswitch-checkbox"} }) }}
+                            <label class="onoffswitch-label" for="{{ item_form.active.vars.id }}">
+                                <div class="onoffswitch-inner"></div>
+                                <div class="onoffswitch-switch"></div>
+                            </label>
+                        </div> 
+                    </div>
+                    <span class="channel-title">Canal: {{ item_form.vars.data.number }}</span>
+                </div>
+                <div class="form-row">
+                    {{ form_widget(item_form.sensorClassName) }}
+                </div>
+                <div class="form-row inline-short-inputs">
+                    {{ form_label(item_form.beginThreshold, "Umbral de alarma desde") }}
+                    {{ form_widget(item_form.beginThreshold) }}
+                    {{ form_label(item_form.endThreshold, "hasta") }}
+                    {{ form_widget(item_form.endThreshold) }}
+                </div>
+            </div>
+        {% endfor %}
+	</div>
+{% endblock %}

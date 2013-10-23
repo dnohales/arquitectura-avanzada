@@ -1,0 +1,8 @@
+{% block checkbox_row %}
+<div>
+    {{ form_errors(form) }}
+    <label class="checkbox">
+        {{ form_widget(form) }} {{ form.vars.label }}
+    </label>
+</div>
+{% endblock %}
