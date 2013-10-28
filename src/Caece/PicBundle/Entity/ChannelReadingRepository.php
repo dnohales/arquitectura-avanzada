@@ -11,8 +11,12 @@ use Doctrine\ORM\EntityRepository;
  */
 class ChannelReadingRepository extends EntityRepository
 {
-    public function findByChannelFromDate(Channel $channel, \DateTime $from = null)
+    public function findFromDate(\DateTime $from)
     {
-        //return $this->findBy($criteria, '');
+        return $this->createQueryBuilder('r')
+            ->andWhere('r.readedAt > :from')
+            ->setParameter('from', $from)
+            ->orderBy('r.readedAt', 'ASC')
+            ->getQuery()->getResult();
     }
 }
