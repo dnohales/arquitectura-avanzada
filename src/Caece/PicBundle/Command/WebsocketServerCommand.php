@@ -23,12 +23,15 @@ class WebsocketServerCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $service = $this->getContainer()->get('caecepic_websocket_service');
-        $server = IoServer::factory($service, 8080);
-        $server->loop->addPeriodicTimer(1, function() {
-            echo "Tick! En este momento debería buscarse en la DB por actualizaciones y mandárselas a los clientes.\n";
+        
+        $port = $this->getContainer()->getParameter('caece_pic.websocket_server_port');
+        
+        $server = IoServer::factory($service, $port);
+        $server->loop->addPeriodicTimer(1, function() use($service) {
+            $service->check();
         });
         
-        $output->writeln('Se ha iniciado el servicio WebSocket');
+        $output->writeln('Se ha iniciado el servicio WebSocket en el puerto '.$port);
         
         $server->run();
     }

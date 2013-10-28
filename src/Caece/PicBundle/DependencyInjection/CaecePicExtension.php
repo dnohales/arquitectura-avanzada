@@ -24,5 +24,7 @@ class CaecePicExtension extends Extension
 
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.xml');
+        
+        $container->setParameter('caece_pic.websocket_server_port', $config['websocket_server_port']);
     }
 }

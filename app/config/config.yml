@@ -73,3 +73,6 @@ jms_di_extra:
         all_bundles: false
         bundles: [CaecePicBundle]
         directories: ["%kernel.root_dir%/../src"]
+
+caece_pic:
+    websocket_server_port: %websocket_server_port%
