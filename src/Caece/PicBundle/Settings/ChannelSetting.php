@@ -1,6 +1,10 @@
 <?php
 namespace Caece\PicBundle\Settings;
 
+use Caece\PicBundle\Entity\ChannelReading;
+use Caece\PicBundle\PicSensor\Sensor\SensorInterface;
+use Caece\PicBundle\PicSensor\Sensor\SensorManager;
+
 /**
  * Description of ChannelSettings
  *
@@ -69,12 +73,12 @@ class ChannelSetting
     }
     
     /**
-     * @return SensorInterface El sensor
-     * configurado para este canal
+     * @return SensorInterface El sensor configurado para este canal
      */
     public function getSensor()
     {
-        return SensorManager::getInstance()->getSensorByClassName($this->getSensorClassName());
+        $sensor = SensorManager::getInstance()->getSensorByClassName($this->getSensorClassName());
+        return $sensor ?: SensorManager::getInstance()->getDummySensor();
     }
 
     public function isActive()

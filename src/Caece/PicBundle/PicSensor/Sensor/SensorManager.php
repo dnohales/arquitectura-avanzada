@@ -10,6 +10,8 @@ use Symfony\Component\Finder\Finder;
  */
 class SensorManager
 {
+    const DUMMY_SENSOR_CLASS = 'Caece\PicBundle\PicSensor\Sensor\Concrete\DummySensor';
+    
     private static $singletonInstance;
     
     private $sensorsMap;
@@ -39,10 +41,7 @@ class SensorManager
         $finder->files()->name('*.php')->in(__DIR__.'/Concrete');
         
         foreach ($finder as $file) {
-            $className = __NAMESPACE__.'\\Concrete\\'.str_replace($file->getRelativePathname, array(
-                '.php' => '',
-                '/' => '\\'
-            ));
+            $className = __NAMESPACE__.'\\Concrete\\'.str_replace(array('.php', '/'), array('', '\\'), $file->getRelativePathname());
             
             $class = new \ReflectionClass($className);
             
@@ -54,11 +53,16 @@ class SensorManager
     
     public function getAvailableSensors()
     {
-        return array_values($this->sensorsMap);
+        return $this->sensorsMap;
     }
     
     public function getSensorByClassName($className)
     {
-        return $this->sensorsMap[$className];
+        return isset($this->sensorsMap[$className])? $this->sensorsMap[$className]:null;
+    }
+    
+    public function getDummySensor()
+    {
+        return $this->getSensorByClassName(self::DUMMY_SENSOR_CLASS);
     }
 }

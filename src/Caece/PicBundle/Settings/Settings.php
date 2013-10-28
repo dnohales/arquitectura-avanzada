@@ -1,6 +1,7 @@
 <?php
 namespace Caece\PicBundle\Settings;
 
+use Caece\PicBundle\Entity\ChannelReading;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -35,9 +36,9 @@ class Settings
     /**
      * @var string
      * 
-     * @Assert\Range({
-     *     "min" = 0,
-     *     "max" = 2359
+     * @Assert\Regex({
+     *     "pattern" = "/^([0-1][0-9]|2[0-3]):[0-5][0-9]$/",
+     *     "message" = "El valor inicial no es un horario válido"
      * })
      */
     private $lightStartTime;
@@ -45,9 +46,9 @@ class Settings
     /**
      * @var string
      * 
-     * @Assert\Range({
-     *     "min" = 0,
-     *     "max" = 2359
+     * @Assert\Regex({
+     *     "pattern" = "/^([0-1][0-9]|2[0-3]):[0-5][0-9]$/",
+     *     "message" = "El valor final no es un horario válido"
      * })
      */
     private $lightEndTime;
@@ -90,6 +91,24 @@ class Settings
     public function setChannels(ChannelSettingCollection $channels)
     {
         $this->channels = $channels;
+    }
+    
+    /**
+     * Devuelve el valor convertido de una lectura específica. Si el canal no
+     * tiene configurado un sensor
+     * 
+     * @param \Caece\PicBundle\Entity\ChannelReading $reading
+     * @return type
+     */
+    public function convertReading(ChannelReading $reading)
+    {
+        $channel = $this->getChannels()->get($reading->getChannel());
+        
+        if ($channel === null || $channel->getSensor() === null) {
+            return $reading->getRawData();
+        } else {
+            return $channel->getSensor()->convertRawData($reading->getRawData());
+        }
     }
 
     public function getLightStartTime()
