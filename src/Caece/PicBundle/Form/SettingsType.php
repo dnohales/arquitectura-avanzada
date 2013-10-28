@@ -27,9 +27,9 @@ class SettingsType extends AbstractType
             'required' => false
         ));
         
-        $builder->add('lightStartTime', 'number', array());
+        $builder->add('lightStartTime', 'text', array());
         
-        $builder->add('lightEndTime', 'number', array());
+        $builder->add('lightEndTime', 'text', array());
         
         $builder->add('channels', 'collection', array(
             'type' => new ChannelSettingType(),
