@@ -29,8 +29,8 @@ class SettingsManager
     
     /**
      * @DI\InjectParams({
-     *     "configFile" = @DI\Inject("%kernel.root_dir%/config/settings.yml"),
-     *     "defaultConfigFile" = @DI\Inject("%kernel.root_dir%/config/settings.yml.dist")
+     *     "configFile" = @DI\Inject("%kernel.root_dir%/settings/settings.yml"),
+     *     "defaultConfigFile" = @DI\Inject("%kernel.root_dir%/config/settings_default.yml")
      * })
      */
     function __construct($configFile, $defaultConfigFile)

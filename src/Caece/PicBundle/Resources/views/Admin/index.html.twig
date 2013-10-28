@@ -2,9 +2,19 @@
 
 {% block body %}
 {{ form_start(form) }}
+    {% if form.vars.errors|length > 0 %}
+        <div class="alert alert-error">
+            {{ form_errors(form) }}
+        </div>
+    {% endif %}
     <div class="row">
         <div class="span6">
             <h2>Canales</h2>
+            {% if form.channels.vars.errors|length > 0 %}
+                <div class="alert alert-error">
+                    {{ form_errors(form.channels) }}
+                </div>
+            {% endif %}
             {% form_theme form.channels 'CaecePicBundle:Admin:channelCollectionTheme.html.twig' %}
             {{ form_widget(form.channels) }}
         </div>
@@ -19,6 +29,8 @@
                     Los tiempos deben ser especificados con cuatro números, siendo
                     por ejemplo <strong>2231</strong> las 22:31.
                 </p>
+                {{ form_errors(form.lightStartTime) }}
+                {{ form_errors(form.lightEndTime) }}
                 <div class="inline-short-inputs">
                     {{ form_label(form.lightStartTime, "Desde") }}{{ form_widget(form.lightStartTime) }}
                     {{ form_label(form.lightEndTime, "hasta") }}{{ form_widget(form.lightEndTime) }}

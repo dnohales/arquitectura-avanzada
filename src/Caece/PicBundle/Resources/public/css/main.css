@@ -3,13 +3,17 @@ root {
 }
 
 @media screen and (min-width: 980px) {
-    body {
-        padding-top: 60px;
-    }
+	body {
+		padding-top: 60px;
+	}
 }
 
 .form-row {
     margin-bottom: 10px;
+}
+
+.form-errors {
+    color:#b94a48;
 }
 
 .inline-short-inputs input {

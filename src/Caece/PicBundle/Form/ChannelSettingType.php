@@ -16,7 +16,7 @@ class ChannelSettingType extends AbstractType
     {
         $builder->add('sensorClassName', 'choice', array(
             'label' => 'Sensor',
-            'empty_value' => 'Seleccione un sensor...'
+            'required' => false
         ));
         
         $builder->add('active', 'checkbox', array(
