@@ -1,7 +1,12 @@
 <?php
 namespace Caece\PicBundle\Command;
 
+use Ratchet\Http\HttpServer;
 use Ratchet\Server\IoServer;
+use Ratchet\Wamp\WampServer;
+use Ratchet\WebSocket\WsServer;
+use React\EventLoop\Factory;
+use React\Socket\Server;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -26,13 +31,16 @@ class WebsocketServerCommand extends ContainerAwareCommand
         
         $port = $this->getContainer()->getParameter('caece_pic.websocket_server_port');
         
-        $server = IoServer::factory($service, $port);
-        $server->loop->addPeriodicTimer(1, function() use($service) {
+        $loop = Factory::create();
+        $webSock = new Server($loop);
+        $webSock->listen($port, '0.0.0.0');
+        new IoServer(new HttpServer(new WsServer($service)), $webSock);
+        $loop->addPeriodicTimer(1, function() use($service) {
             $service->check();
         });
         
         $output->writeln('Se ha iniciado el servicio WebSocket en el puerto '.$port);
         
-        $server->run();
+        $loop->run();
     }
 }
