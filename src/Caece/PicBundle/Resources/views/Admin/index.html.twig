@@ -1,5 +1,14 @@
 {% extends "::base.html.twig" %}
 
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(function() {
+            Admin.init();
+       });
+    </script>
+{% endblock %}
+
 {% block body %}
 {{ form_start(form) }}
     {% if form.vars.errors|length > 0 %}

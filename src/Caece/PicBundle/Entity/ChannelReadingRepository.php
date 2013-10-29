@@ -19,4 +19,22 @@ class ChannelReadingRepository extends EntityRepository
             ->orderBy('r.readedAt', 'ASC')
             ->getQuery()->getResult();
     }
+    
+    public function findLatestByChannel()
+    {
+        $dql = <<<DQL
+SELECT r1
+FROM CaecePicBundle:ChannelReading r1
+WHERE r1.readedAt = (
+    SELECT MAX(r2.readedAt)
+    FROM CaecePicBundle:ChannelReading r2
+    WHERE r1.channel = r2.channel
+)
+ORDER BY r1.channel ASC
+DQL;
+        
+        return $this->getEntityManager()
+                    ->createQuery($dql)
+                    ->getResult();
+    }
 }

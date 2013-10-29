@@ -45,6 +45,27 @@ class Service implements MessageComponentInterface
         $this->settingsManager->loadSettings();
     }
     
+    private function serializeReading(ChannelReading $r)
+    {
+        return array(
+            'channel' => $r->getChannel(),
+            'rawData' => $r->getRawData(),
+            'convertedData' => $this->settingsManager->getSettings()->convertReading($r),
+            'readedAt' => $r->getReadedAt()->format(\DateTime::ISO8601),
+        );
+    }
+    
+    private function serializeReadingList(array $readings)
+    {
+        $return = array();
+        
+        foreach ($readings as $r) {
+            $return[] = $this->serializeReading($r);
+        }
+        
+        return $return;
+    }
+    
     public function check()
     {
         $readings = $this->em->getRepository('CaecePicBundle:ChannelReading')->findFromDate($this->lastTimestamp);
@@ -53,25 +74,13 @@ class Service implements MessageComponentInterface
             $this->debug('Se encontraron '.count($readings).' lecturas nuevas');
             
             $response = array(
-                'readings' => array(),
+                'readings' => $this->serializeReadingList($readings),
                 'reloadConfig' => false
             );
             
             if ($this->settingsManager->wasChanged()) {
                 $response['reloadConfig'] = true;
                 $this->settingsManager->loadSettings();
-            }
-            
-            $settings = $this->settingsManager->getSettings();
-            
-            /* @var $r ChannelReading */
-            foreach ($readings as $r) {
-                $response['readings'][] = array(
-                    'channel' => $r->getChannel(),
-                    'rawData' => $r->getRawData(),
-                    'convertedData' => $settings->convertReading($r),
-                    'readedAt' => $r->getReadedAt()->format(\DateTime::ISO8601),
-                );
             }
             
             $this->lastTimestamp = end($readings)->getReadedAt();
@@ -109,6 +118,14 @@ class Service implements MessageComponentInterface
     {
         $this->debug('[Open-'.$conn->resourceId.'] '.$conn->remoteAddress.' estableció conexión.');
         $this->connections->attach($conn);
+        
+        //Se envían las últimas lecturas de cada canal al cliente recién conectado
+        //para que pueda inicializar el gráfico o panel de administración
+        $readings = $this->em->getRepository('CaecePicBundle:ChannelReading')->findLatestByChannel();
+        $conn->send(json_encode(array(
+            'readings' => $this->serializeReadingList($readings),
+            'reloadConfig' => false
+        )));
     }
     
     public function debug($msg)

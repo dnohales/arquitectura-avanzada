@@ -23,6 +23,12 @@
                     {{ form_label(item_form.endThreshold, "hasta") }}
                     {{ form_widget(item_form.endThreshold) }}
                 </div>
+                <hr />
+                <div class="form-row">
+                    <span class="hidden" id="admin_channel_unit_{{ item_form.vars.data.number }}">{{ item_form.vars.data.sensor.unitName }}</span>
+                    Valor actual: <strong id="admin_channel_value_{{ item_form.vars.data.number }}"></strong>
+                    <span id="admin_channel_value_time_{{ item_form.vars.data.number }}"></span>
+                </div>
             </div>
         {% endfor %}
 	</div>
