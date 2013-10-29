@@ -87,6 +87,8 @@ class Service implements MessageComponentInterface
             
             $this->sendToAll(json_encode($response));
         }
+        
+        $this->em->clear();
     }
     
     public function sendToAll($msg)
