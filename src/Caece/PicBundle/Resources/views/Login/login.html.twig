@@ -1,12 +1,16 @@
 {% extends "::base.html.twig" %}
 
 {% block body %}
-<div class="login-container">
-	<h1>Iniciar sesión</h1>
-	<form method="post" action="{{ path('login_check') }}">
-		<input autofocus class="fullwidth" value="" name="_username" type="text" placeholder="Nombre de usuario" />
-		<input class="fullwidth" name="_password" type="password" placeholder="Contraseña" />
-		<button class="btn btn-primary" type="submit">Iniciar Sesión</button>
-	</form>
+<div class="login-container row">
+    <div class="span4"></div>
+    <div class="span4">
+        <h1>Iniciar sesión</h1>
+        <form method="post" action="{{ path('login_check') }}">
+            <input autofocus class="fullwidth" value="" name="_username" type="text" placeholder="Nombre de usuario" />
+            <input class="fullwidth" name="_password" type="password" placeholder="Contraseña" />
+            <button class="btn btn-primary" type="submit">Iniciar Sesión</button>
+        </form>
+    </div>
+    <div class="span4"></div>
 </div>
 {% endblock %}

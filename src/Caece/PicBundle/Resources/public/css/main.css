@@ -8,6 +8,22 @@ root {
 	}
 }
 
+.login-container h1 {
+    text-align: center;
+    margin-bottom: 30px;
+    margin-top: 40px;
+}
+
+.login-container input, .login-container button {
+    display: box;
+    width: 100%;
+}
+
+.login-container input {
+    padding-right: 0px;
+    margin-left: -4px;
+}
+
 .form-row {
     margin-bottom: 10px;
 }
