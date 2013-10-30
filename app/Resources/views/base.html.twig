@@ -44,11 +44,15 @@
             <script src="{{ asset('bundles/caecepic/js/main.js') }}"></script>
             <script>
                 $(function() {
-                    {# TODO: hacer que el host sea configurable #}
-                    Globals.websocketHost = 'localhost';
-                    Globals.websocketPort = '{{ get_parameter('caece_pic.websocket_server_port') }}';
+                    {% block javascripts_preinit %}
+                        {# TODO: hacer que el host sea configurable #}
+                        Globals.websocketHost = 'localhost';
+                        Globals.websocketPort = '{{ get_parameter('caece_pic.websocket_server_port') }}';
+                    {% endblock %}
 
                     App.init();
+                    
+                    {% block javascripts_posinit %}{% endblock %}
                });
             </script>
         {% endblock %}
