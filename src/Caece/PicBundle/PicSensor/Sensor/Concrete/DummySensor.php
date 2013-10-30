@@ -29,4 +29,9 @@ class DummySensor implements SensorInterface
     {
         return $rawData;
     }
+
+    public function getType()
+    {
+        return self::TYPE_CONTINUOUS;
+    }
 }

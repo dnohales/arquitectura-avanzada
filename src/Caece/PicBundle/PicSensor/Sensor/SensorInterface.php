@@ -7,6 +7,9 @@ namespace Caece\PicBundle\PicSensor\Sensor;
  */
 interface SensorInterface
 {
+    const TYPE_CONTINUOUS = 'continuous';
+    const TYPE_BOOLEAN = 'boolean';
+    
     /**
      * @return string El nombre del sensor
      */
@@ -34,6 +37,13 @@ interface SensorInterface
      * por ejemplo, "ºC"
      */
     function getUnitName();
+    
+    /**
+     * @return string Una de las constantes TYPE_* que representa el tipo de
+     * sensor, puede ser booleano, como por ejemplo, el estado de un botón, o
+     * contínuo, como por ejemplo, un sensor de temperatura.
+     */
+    function getType();
 }
 
 ?>
