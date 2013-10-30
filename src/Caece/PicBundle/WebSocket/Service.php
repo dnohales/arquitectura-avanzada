@@ -75,11 +75,11 @@ class Service implements MessageComponentInterface
             
             $response = array(
                 'readings' => $this->serializeReadingList($readings),
-                'reloadConfig' => false
+                'settingsWereChanged' => false
             );
             
             if ($this->settingsManager->wasChanged()) {
-                $response['reloadConfig'] = true;
+                $response['settingsWereChanged'] = true;
                 $this->settingsManager->loadSettings();
             }
             
@@ -126,7 +126,7 @@ class Service implements MessageComponentInterface
         $readings = $this->em->getRepository('CaecePicBundle:ChannelReading')->findLatestByChannel();
         $conn->send(json_encode(array(
             'readings' => $this->serializeReadingList($readings),
-            'reloadConfig' => false
+            'settingsWereChanged' => false
         )));
     }
     
