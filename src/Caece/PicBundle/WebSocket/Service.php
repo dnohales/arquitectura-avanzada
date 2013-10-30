@@ -69,21 +69,24 @@ class Service implements MessageComponentInterface
     public function check()
     {
         $readings = $this->em->getRepository('CaecePicBundle:ChannelReading')->findFromDate($this->lastTimestamp);
+        $settingsWereChanged = $this->settingsManager->wasChanged();
         
-        if (count($readings) > 0) {
+        if (count($readings) > 0 || $settingsWereChanged) {
             $this->debug('Se encontraron '.count($readings).' lecturas nuevas');
             
-            $response = array(
-                'readings' => $this->serializeReadingList($readings),
-                'settingsWereChanged' => false
-            );
-            
-            if ($this->settingsManager->wasChanged()) {
-                $response['settingsWereChanged'] = true;
+            if ($settingsWereChanged) {
+                $this->debug('La configuración del sistema ha cambiado');
                 $this->settingsManager->loadSettings();
             }
             
-            $this->lastTimestamp = end($readings)->getReadedAt();
+            $response = array(
+                'readings' => $this->serializeReadingList($readings),
+                'settingsWereChanged' => $settingsWereChanged
+            );
+            
+            if (count($readings) > 0) {
+                $this->lastTimestamp = end($readings)->getReadedAt();
+            }
             
             $this->sendToAll(json_encode($response));
         }
