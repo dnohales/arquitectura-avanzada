@@ -1,5 +1,33 @@
 {% extends "::base.html.twig" %}
 
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/caecepic/js/highstock/highstock.js') }}"></script>
+    <script src="{{ asset('bundles/caecepic/js/highstock/highstock-more.js') }}"></script>
+{% endblock %}
+
+{% block javascripts_posinit %}
+    {{ parent() }}
+    Home.init();
+{% endblock %}
+
 {% block body %}
-	Hello!
+    
+    {% for channel in settings.channels.activeContinuous %}
+        {% include "CaecePicBundle:Home:_channelChart.html.twig" with {"channel": channel} %}
+    {% endfor %}
+    
+    <div id="reload_settings_dialog" class="modal hide fade">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h3>La configuración ha cambiado</h3>
+        </div>
+        <div class="modal-body">
+            <p>La configuración del sistema ha cambiado, debe recargar la página para ver los cambios reflejados.</p>
+        </div>
+        <div class="modal-footer">
+            <a href="#" class="btn ignore">Ignorar</a>
+            <a href="#" class="btn btn-primary reload-page">Recargar página</a>
+        </div>
+    </div>
 {% endblock %}

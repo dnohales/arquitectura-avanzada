@@ -37,6 +37,12 @@ Admin = {
         $(document).on("caecepic.websocket.message", function(event, data) {
             Admin.updateChannelValues(data);
         });
+        
+        $(document).on("caecepic.websocket.open", function(event) {
+            App.websocket.send(JSON.stringify({
+                command: "getLatestReadings"
+            }));
+        });
     },
     
     updateChannelValues: function(data) {
@@ -62,45 +68,144 @@ Admin = {
     }
 };
 
-Charts = {
+Home = {
     init: function() {
         $(document).on("caecepic.websocket.message", function(event, data) {
-            Charts.updateChannelValues(data);
+            Home.updateChannelValues(data);
         });
         
-        //TODO: Inicializar el Highstock
+        Home.initCharts();
+    },
+    
+    initCharts: function() {
+        $('.highchart-container').each(function() {
+            var channel = JSON.parse($(this).attr('data-channel-info'));
+            $(this).highcharts('StockChart', {
+                chart: {
+                    marginRight: 10,
+                },
+                title: {
+                    text: channel.sensor.name
+                },
+                subtitle: {
+                    text: "Canal Nº " + channel.number
+                },
+                xAxis: {
+                    type: 'datetime',
+                    title: {
+                        text: 'Tiempo'
+                    }
+                },
+                yAxis: {
+                    title: {
+                        text: channel.sensor.readedDataDescription + " (" + channel.sensor.unitName + ")"
+                    },
+                    min: channel.beginThreshold - 100,
+                    max: channel.endThreshold + 100,
+                    plotLines : [{
+                        value : channel.beginThreshold,
+                        color : 'green',
+                        dashStyle : 'shortdash',
+                        width : 2,
+                        label : {
+                            text : 'Umbral de alarma inferior',
+                            align: 'right'
+                        }
+                    }, {
+                        value : channel.endThreshold,
+                        color : 'red',
+                        dashStyle : 'shortdash',
+                        width : 2,
+                        label : {
+                            text : 'Umbral de alarma superior',
+                            align: 'right'
+                        }
+                    }]
+                },
+                rangeSelector : {
+                    enabled: false
+                },
+                legend: {
+                    enabled: false
+                },
+                exporting: {
+                    enabled: false
+                },
+                series: [{
+                    name: channel.sensor.readedDataDescription,
+                    data: []
+                }]
+            });
+        });
     },
     
     updateChannelValues: function(data) {
-        //TODO: Actualizar los gráficos
+        if (data.settingsWereChanged) {
+            $("#reload_settings_dialog").modal("show");
+            return;
+        }
+
+        for (var i in data.readings) {
+            var reading = data.readings[i];
+            
+            var container = $("#chart_channel_" + reading.channel);
+            var chart = Highcharts.charts[parseInt(container.attr('data-highcharts-chart'))];
+            
+            if (chart) {
+                var series = chart.series[0];
+
+                series.addPoint([
+                    (new Date(reading.readedAt)).getTime(),
+                    reading.convertedData
+                ], true, false);
+                
+                console.log({
+                    x: (new Date(reading.readedAt)).getTime(),
+                    y: reading.convertedData
+                });
+            }
+        }
     }
 };
 
 App = {
+    websocket: null,
+    
     init: function() {
         App.initWebsocket();
+        
+        $(".modal .ignore").click(function() {
+            $(this).parents(".modal").modal("hide");
+            return false;
+        });
+        
+        $(".modal .reload-page").click(function() {
+            window.location.reload();
+            return false;
+        });
     },
     
     initWebsocket: function() {
-        var websocket = new WebSocket("ws://" + Globals.websocketHost + ":" + Globals.websocketPort);
+        App.websocket = new WebSocket("ws://" + Globals.websocketHost + ":" + Globals.websocketPort);
         
-        websocket.onopen = function(event) {
+        App.websocket.onopen = function(event) {
             console.info("Se abrió la conexión WebSocket");
+            $(document).trigger("caecepic.websocket.open");
         };
         
-        websocket.onclose = function(event) {
+        App.websocket.onclose = function(event) {
             console.info("Se cerró la conexión WebSocket");
         };
         
-        websocket.onmessage = function(event) {
+        App.websocket.onmessage = function(event) {
             console.log(event.data);
             var data = JSON.parse(event.data);
             $(document).trigger("caecepic.websocket.message", data);
         };
         
-        websocket.onerror = function(event) {
-            console.error("Se cerró la conexión WebSocket");
-            alert("Están ocurriendo problemas para comunicarse con el servidor, por favor, recargué la página.");
+        App.websocket.onerror = function(event) {
+            console.error("Se cerró la conexión WebSocket por un error");
+            $("#websocket_error_dialog").modal("show");
         };
     }
 };

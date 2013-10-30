@@ -1,0 +1,12 @@
+<div id="chart_channel_{{ channel.number }}" data-channel-info="{{ {
+    'number': channel.number,
+    'beginThreshold': channel.beginThreshold,
+    'endThreshold': channel.endThreshold,
+    'sensor': {
+        'name': channel.sensor.name,
+        'readedDataDescription': channel.sensor.readedDataDescription,
+        'unitName': channel.sensor.unitName
+    }
+}|json_encode() }}" class="highchart-container">
+    
+</div>

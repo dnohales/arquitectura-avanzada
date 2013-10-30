@@ -14,6 +14,10 @@ class HomeController extends Controller
      */
     public function indexAction()
     {
-        return array();
+        $settings = $this->get('caecepic_settings_manager')->loadSettings();
+        
+        return array(
+            'settings' => $settings
+        );
     }
 }

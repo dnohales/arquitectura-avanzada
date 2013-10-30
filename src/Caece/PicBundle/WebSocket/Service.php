@@ -116,21 +116,22 @@ class Service implements MessageComponentInterface
 
     public function onMessage(ConnectionInterface $from, $msg)
     {
+        $decodedMsg = json_decode($msg, true);
+        $msg = array_merge(array('command' => ''), $decodedMsg === null? array():$decodedMsg);
         
+        if ($msg['command'] === 'getLatestReadings') {
+            $readings = $this->em->getRepository('CaecePicBundle:ChannelReading')->findLatestByChannel();
+            $from->send(json_encode(array(
+                'readings' => $this->serializeReadingList($readings),
+                'settingsWereChanged' => false,
+            )));
+        }
     }
 
     public function onOpen(ConnectionInterface $conn)
     {
         $this->debug('[Open-'.$conn->resourceId.'] '.$conn->remoteAddress.' estableció conexión.');
         $this->connections->attach($conn);
-        
-        //Se envían las últimas lecturas de cada canal al cliente recién conectado
-        //para que pueda inicializar el gráfico o panel de administración
-        $readings = $this->em->getRepository('CaecePicBundle:ChannelReading')->findLatestByChannel();
-        $conn->send(json_encode(array(
-            'readings' => $this->serializeReadingList($readings),
-            'settingsWereChanged' => false
-        )));
     }
     
     public function debug($msg)
