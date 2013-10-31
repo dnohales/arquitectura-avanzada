@@ -1,6 +1,7 @@
 Globals = {
     websocketHost: null,
-    websocketPort: null
+    websocketPort: null,
+    routes: {}
 };
 
 Lib = {
@@ -174,13 +175,28 @@ App = {
     init: function() {
         App.initWebsocket();
         
-        $(".modal .ignore").click(function() {
+        $(".modal .cancel").click(function() {
             $(this).parents(".modal").modal("hide");
             return false;
         });
         
         $(".modal .reload-page").click(function() {
             window.location.reload();
+            return false;
+        });
+        
+        $("#download_history_button").click(function() {
+            $("#download_history_dialog").modal("show");
+            if ($("#download_history_dialog .dialog-loading").length > 0) {
+                $.get(Globals.routes.caece_pic_downloadhistory_getform, function(data) {
+                    $("#download_history_dialog .modal-body").html(data);
+                });
+            }
+            return false;
+        });
+        
+        $("#download_history_dialog .submit").click(function() {
+            $("#download_history_dialog form").submit();
             return false;
         });
     },

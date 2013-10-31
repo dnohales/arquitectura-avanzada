@@ -37,4 +37,16 @@ DQL;
                     ->createQuery($dql)
                     ->getResult();
     }
+    
+    public function findByChannelBetweenDates($channel, \DateTime $beginTime, \DateTime $endTime)
+    {
+        return $this->createQueryBuilder('r')
+                    ->andWhere('r.channel = :channel')
+                    ->setParameter('channel', $channel)
+                    ->andWhere('r.readedAt BETWEEN :beginTime AND :endTime')
+                    ->setParameter('beginTime', $beginTime)
+                    ->setParameter('endTime', $endTime)
+                    ->orderBy('r.readedAt', 'ASC')
+                    ->getQuery()->getResult();
+    }
 }

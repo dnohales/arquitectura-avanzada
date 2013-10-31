@@ -88,6 +88,17 @@ root {
     margin-bottom: 0;
 }
 
+#download_history_dialog .dialog-loading {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.datetime-widget select {
+    width: 100px;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
 /** OnOff Switcher http://proto.io/freebies/onoff/ **/
 .onoffswitch {
     position: relative; width: 67px;
