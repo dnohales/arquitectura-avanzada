@@ -1,12 +1,33 @@
 settings:
     notify_email_address: pic@example.com
     sample_interval: 10
-    light_start_time:
-    light_end_time:
+    light_start_time: '10:00'
+    light_end_time: '15:00'
+    light_schedule_enabled: false
     channels:
         1:
-             active: true
-             sensor_class_name: bla\bla
+            number: 1
+            sensor_class_name: Caece\PicBundle\PicSensor\Sensor\Concrete\DummySensor
+            active: true
+            begin_threshold: 100
+            end_threshold: 900
         2:
-             active: false
-             sensor_class_name: bla\bla2
+            number: 2
+            sensor_class_name: Caece\PicBundle\PicSensor\Sensor\Concrete\DummySensor
+            active: true
+            begin_threshold: 100
+            end_threshold: 900
+        3:
+            number: 3
+            sensor_class_name: Caece\PicBundle\PicSensor\Sensor\Concrete\DummySensor
+            active: true
+            begin_threshold: 100
+            end_threshold: 900
+        4:
+            number: 4
+            sensor_class_name: Caece\PicBundle\PicSensor\Sensor\Concrete\SolarCellStatus
+            active: true
+        5:
+            number: 5
+            sensor_class_name: Caece\PicBundle\PicSensor\Sensor\Concrete\CabinetStatus
+            active: true
