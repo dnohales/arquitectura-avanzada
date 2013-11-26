@@ -110,5 +110,10 @@ class ChannelSetting
     {
         $this->endThreshold = $endThreshold;
     }
+    
+    public function isOutOfThreshold($value)
+    {
+        return $value < $this->getBeginThreshold() || $value > $this->getEndThreshold();
+    }
 
 }

@@ -27,6 +27,13 @@ class ChannelSettingCollection extends ArrayCollection
             return $channel->getSensor()->getType() === $type && $channel->isActive() === $state;
         });
     }
+    
+    public function getBySensor($sensorClassName)
+    {
+        return $this->filter(function($channel) use ($sensorClassName) {
+            return get_class($channel->getSensor()) === $sensorClassName;
+        });
+    }
 }
 
 ?>
