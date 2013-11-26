@@ -45,5 +45,3 @@ interface SensorInterface
      */
     function getType();
 }
-
-?>
