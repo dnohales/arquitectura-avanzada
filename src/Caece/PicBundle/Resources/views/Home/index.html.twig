@@ -30,10 +30,12 @@
         {% endfor %}
     </table>
     
-    <h3>Gráficos de canales analógicos</h3>
-    {% for channel in settings.channels.activeContinuous %}
-        {% include "CaecePicBundle:Home:_channelChart.html.twig" with {"channel": channel} %}
-    {% endfor %}
+    {% if settings.showCharts %}
+        <h3>Gráficos de canales analógicos</h3>
+        {% for channel in settings.channels.activeContinuous %}
+            {% include "CaecePicBundle:Home:_channelChart.html.twig" with {"channel": channel} %}
+        {% endfor %}
+    {% endif %}
     
     <div id="reload_settings_dialog" class="modal hide fade">
         <div class="modal-header">

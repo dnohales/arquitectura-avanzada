@@ -31,6 +31,11 @@ class SettingsType extends AbstractType
         
         $builder->add('lightEndTime', 'text', array());
         
+        $builder->add('showCharts', 'checkbox', array(
+            'label' => 'Mostrar gráficos',
+            'required' => false
+        ));
+        
         $builder->add('channels', 'collection', array(
             'type' => new ChannelSettingType(),
         ));

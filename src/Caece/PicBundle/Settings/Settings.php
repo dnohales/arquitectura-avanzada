@@ -58,6 +58,11 @@ class Settings
      */
     private $lightScheduleEnabled;
     
+    /**
+     * @var bool
+     */
+    private $showCharts;
+    
     public function __construct()
     {
         $this->channels = new ChannelSettingCollection();
@@ -139,6 +144,16 @@ class Settings
     public function setLightScheduleEnabled($lightScheduleEnabled)
     {
         $this->lightScheduleEnabled = $lightScheduleEnabled;
+    }
+    
+    public function getShowCharts()
+    {
+        return $this->showCharts;
+    }
+
+    public function setShowCharts($showCharts)
+    {
+        $this->showCharts = $showCharts;
     }
 
 }
