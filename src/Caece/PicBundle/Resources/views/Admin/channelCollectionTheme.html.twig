@@ -1,29 +1,32 @@
 {% block collection_widget %}
     <div id="{{ form.vars.id }}" class="channel-collection">
         {% for item_form in form %}
+            {% set is_continuous = item_form.vars.data.sensor.type == constant('Caece\\PicBundle\\PicSensor\\Sensor\\SensorInterface::TYPE_CONTINUOUS') %}
             <div class="channel-collection-item">
                 <div class="form-row">
-                    <div class="pull-right">
-                        <div class="onoffswitch">
-                            {{ form_widget(item_form.active, {"attr": {"class": "onoffswitch-checkbox"} }) }}
-                            <label class="onoffswitch-label" for="{{ item_form.active.vars.id }}">
-                                <div class="onoffswitch-inner"></div>
-                                <div class="onoffswitch-switch"></div>
-                            </label>
-                        </div> 
+                    {% if is_continuous %}
+                        <div class="pull-right">
+                            <div class="onoffswitch">
+                                {{ form_widget(item_form.active, {"attr": {"class": "onoffswitch-checkbox"} }) }}
+                                <label class="onoffswitch-label" for="{{ item_form.active.vars.id }}">
+                                    <div class="onoffswitch-inner"></div>
+                                    <div class="onoffswitch-switch"></div>
+                                </label>
+                            </div> 
+                        </div>
+                    {% endif %}
+                    <span class="channel-title">Canal {{ item_form.vars.data.number }}: {{ item_form.vars.data.sensor.name }}</span>
+                </div>
+                
+                {% if is_continuous %}
+                    <div class="form-row inline-short-inputs">
+                        {{ form_label(item_form.beginThreshold, "Umbral de alarma desde") }}
+                        {{ form_widget(item_form.beginThreshold) }}
+                        {{ form_label(item_form.endThreshold, "hasta") }}
+                        {{ form_widget(item_form.endThreshold) }}
                     </div>
-                    <span class="channel-title">Canal: {{ item_form.vars.data.number }}</span>
-                </div>
-                <div class="form-row">
-                    {{ form_widget(item_form.sensorClassName) }}
-                </div>
-                <div class="form-row inline-short-inputs">
-                    {{ form_label(item_form.beginThreshold, "Umbral de alarma desde") }}
-                    {{ form_widget(item_form.beginThreshold) }}
-                    {{ form_label(item_form.endThreshold, "hasta") }}
-                    {{ form_widget(item_form.endThreshold) }}
-                </div>
-                <hr />
+                    <hr />
+                {% endif %}
                 <div class="form-row">
                     <span class="hidden" id="admin_channel_unit_{{ item_form.vars.data.number }}">{{ item_form.vars.data.sensor.unitName }}</span>
                     Valor actual: <strong id="admin_channel_value_{{ item_form.vars.data.number }}"></strong>
