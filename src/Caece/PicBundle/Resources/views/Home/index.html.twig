@@ -12,6 +12,25 @@
 {% endblock %}
 
 {% block body %}
+    <h3>Resumen de canales</h3>
+    <table class="table table-bordered">
+        <tr>
+            <th>Nº Canal</th>
+            <th>Sensor</th>
+            <th>Valor</th>
+            <th>Fecha de lectura</h>
+        </tr>
+        {% for channel in settings.channels %}
+        <tr>
+            <td>{{ channel.number }}</td>
+            <td>{{ channel.sensor.name }}</td>
+            <td><span id="channel_value_{{ channel.number }}">-</span> {{ channel.sensor.unitName }}</td>
+            <td id="channel_readedat_{{ channel.number }}"></td>
+        </tr>
+        {% endfor %}
+    </table>
+    
+    <h3>Gráficos de canales analógicos</h3>
     {% for channel in settings.channels.activeContinuous %}
         {% include "CaecePicBundle:Home:_channelChart.html.twig" with {"channel": channel} %}
     {% endfor %}

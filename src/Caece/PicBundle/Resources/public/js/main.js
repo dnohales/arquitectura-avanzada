@@ -165,6 +165,9 @@ Home = {
                     y: reading.convertedData
                 });
             }
+            
+            $("#channel_value_" + reading.channel).html(reading.convertedData);
+            $("#channel_readedat_" + reading.channel).html((new Date(reading.readedAt)).toLocaleString());
         }
     }
 };
