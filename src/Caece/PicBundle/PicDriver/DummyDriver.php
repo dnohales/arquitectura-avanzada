@@ -54,6 +54,6 @@ class DummyDriver implements DriverInterface
             $this->latestReadsByChannel[$key] = $this->randNearData($value);
         }
 
-        return $this->latestReadsByChannel;
+        return array(implode(';',$this->latestReadsByChannel));
     }
 }
