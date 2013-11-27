@@ -34,7 +34,7 @@ class SolarRadiationSensor implements SensorInterface
     function convertRawData($rawData)
     {
         //se trabaja con el SDL y un resistor de 3.3K
-        $aux = (2500/$rawData - 500)/3.3;
+        $aux = $rawData * -0.09 + 100;
         if ($aux < 10)
         {
             $aux = 10;
@@ -53,7 +53,7 @@ class SolarRadiationSensor implements SensorInterface
      */
     function getUnitName()
     {
-        return "w/m^2";
+        return "w/m²";
     }
 
     public function getType()

@@ -33,7 +33,7 @@ class WindSpeedSensor implements SensorInterface
      */
     function convertRawData($rawData)
     {
-        return $rawData;
+        return $rawData * 0.3 - 25;
     }
     
     /**
