@@ -62,7 +62,7 @@
                 $(function() {
                     {% block javascripts_preinit %}
                         {# TODO: hacer que el host sea configurable #}
-                        Globals.websocketHost = 'localhost';
+                        Globals.websocketHost = '{{ app.request.host }}';
                         Globals.websocketPort = '{{ get_parameter('caece_pic.websocket_server_port') }}';
                     {% endblock %}
 
