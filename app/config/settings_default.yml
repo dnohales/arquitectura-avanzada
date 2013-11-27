@@ -8,19 +8,19 @@ settings:
     channels:
         1:
             number: 1
-            sensor_class_name: Caece\PicBundle\PicSensor\Sensor\Concrete\DummySensor
+            sensor_class_name: Caece\PicBundle\PicSensor\Sensor\Concrete\SolarRadiationSensor
             active: true
             begin_threshold: 100
             end_threshold: 900
         2:
             number: 2
-            sensor_class_name: Caece\PicBundle\PicSensor\Sensor\Concrete\DummySensor
+            sensor_class_name: Caece\PicBundle\PicSensor\Sensor\Concrete\TemperatureSensor
             active: true
             begin_threshold: 100
             end_threshold: 900
         3:
             number: 3
-            sensor_class_name: Caece\PicBundle\PicSensor\Sensor\Concrete\DummySensor
+            sensor_class_name: Caece\PicBundle\PicSensor\Sensor\Concrete\WindSpeedSensor
             active: true
             begin_threshold: 100
             end_threshold: 900
