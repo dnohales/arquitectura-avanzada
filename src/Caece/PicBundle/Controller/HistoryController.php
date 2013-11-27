@@ -55,7 +55,9 @@ class HistoryController extends Controller
         return $this->getDoctrine()->getEntityManager()->getRepository('CaecePicBundle:ChannelReading')->findByChannelBetweenDates(
             $data['channel'],
             $data['beginDate'],
-            $data['endDate']
+            $data['endDate'],
+            $data['beginTime'],
+            $data['endTime']
         );
     }
 

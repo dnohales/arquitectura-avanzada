@@ -2,7 +2,9 @@
 
 namespace Caece\PicBundle\Entity;
 
+use DateTime;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Query\ResultSetMappingBuilder;
 
 /**
  * Description of ChannelReadingRepository
@@ -11,7 +13,7 @@ use Doctrine\ORM\EntityRepository;
  */
 class ChannelReadingRepository extends EntityRepository
 {
-    public function findFromDate(\DateTime $from)
+    public function findFromDate(DateTime $from)
     {
         return $this->createQueryBuilder('r')
             ->andWhere('r.readedAt > :from')
@@ -38,15 +40,29 @@ DQL;
                     ->getResult();
     }
     
-    public function findByChannelBetweenDates($channel, \DateTime $beginTime, \DateTime $endTime)
+    public function findByChannelBetweenDates($channel, DateTime $beginDate, DateTime $endDate, DateTime $beginTime, DateTime $endTime)
     {
-        return $this->createQueryBuilder('r')
-                    ->andWhere('r.channel = :channel')
+        $rsm = new ResultSetMappingBuilder($this->getEntityManager());
+        $rsm->addEntityResult('CaecePicBundle:ChannelReading', 'r');
+        $rsm->addFieldResult('r', 'id', 'id');
+        $rsm->addFieldResult('r', 'readedAt', 'readedAt');
+        $rsm->addFieldResult('r', 'rawData', 'rawData');
+        $rsm->addFieldResult('r', 'channel', 'channel');
+        
+        $sql = <<<SQL
+SELECT r.id, r.readedAt, r.rawData, r.channel
+FROM ChannelReading r
+WHERE r.channel = :channel AND
+      r.readedAt BETWEEN :beginDate AND DATE_ADD(:endDate, INTERVAL 1 DAY) AND
+      TIME(r.readedAt) BETWEEN TIME(:beginTime) AND TIME(:endTime)
+SQL;
+        
+        return $this->getEntityManager()->createNativeQuery($sql, $rsm)
                     ->setParameter('channel', $channel)
-                    ->andWhere('r.readedAt BETWEEN :beginTime AND :endTime')
+                    ->setParameter('beginDate', $beginDate)
+                    ->setParameter('endDate', $endDate)
                     ->setParameter('beginTime', $beginTime)
                     ->setParameter('endTime', $endTime)
-                    ->orderBy('r.readedAt', 'ASC')
-                    ->getQuery()->getResult();
+                    ->getResult();
     }
 }
