@@ -1,0 +1,27 @@
+{{ form_start(form, {'attr': {'class': 'history-form'} }) }}
+    <div class="row">
+        <div class="span3">
+            {{ form_row(form.channel) }}
+        </div>
+        <div class="span4">
+            <div class="datetime-widget">
+                {{ form_row(form.beginDate) }}
+            </div>
+            <div class="datetime-widget">
+                {{ form_row(form.endDate) }}
+            </div>
+        </div>
+        <div class="span3">
+            <div class="datetime-widget">
+                {{ form_row(form.beginTime) }}
+            </div>
+            <div class="datetime-widget">
+                {{ form_row(form.endTime) }}
+            </div>
+        </div>
+        <div class="span2 history-buttons">
+            {{ form_widget(form.searchButton, {'attr': {'class': 'btn'} }) }}
+            {{ form_widget(form.downloadButton, {'attr': {'class': 'btn'} }) }}
+        </div>
+    </div>
+{{ form_end(form) }}

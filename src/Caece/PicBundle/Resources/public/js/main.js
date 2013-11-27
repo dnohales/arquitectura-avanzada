@@ -187,21 +187,6 @@ App = {
             window.location.reload();
             return false;
         });
-        
-        $("#download_history_button").click(function() {
-            $("#download_history_dialog").modal("show");
-            if ($("#download_history_dialog .dialog-loading").length > 0) {
-                $.get(Globals.routes.caece_pic_downloadhistory_getform, function(data) {
-                    $("#download_history_dialog .modal-body").html(data);
-                });
-            }
-            return false;
-        });
-        
-        $("#download_history_dialog .submit").click(function() {
-            $("#download_history_dialog form").submit();
-            return false;
-        });
     },
     
     initWebsocket: function() {

@@ -88,9 +88,18 @@ root {
     margin-bottom: 0;
 }
 
-#download_history_dialog .dialog-loading {
-    text-align: center;
-    margin: 20px 0;
+.history-form {
+    margin-bottom: 20px;
+}
+
+.history-buttons {
+    margin-top: 26px;
+}
+
+.history-buttons button {
+    display: block;
+    margin-bottom: 8px;
+    min-width: 180px;
 }
 
 .datetime-widget select {

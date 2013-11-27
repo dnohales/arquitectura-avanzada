@@ -1,0 +1,11 @@
+{% extends "::base.html.twig" %}
+
+{% block body %}
+
+{% include 'CaecePicBundle:History:_form.html.twig' with {'form': form} %}
+
+{% if readings is not null %}
+    {% include 'CaecePicBundle:History:_list.html.twig' with {'readings': readings, 'settings': settings} %}
+{% endif %}
+
+{% endblock %}

@@ -10,7 +10,7 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
  *
  * @author Damián Nohales <damiannohales@uxorit.com>
  */
-class DownloadHistoryType extends AbstractType
+class HistoryType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -26,14 +26,32 @@ class DownloadHistoryType extends AbstractType
             'choices' => $channelChoices,
         ));
         
-        $builder->add('beginTime', 'datetime', array(
+        $builder->add('beginDate', 'date', array(
             'label' => 'Desde la fecha',
             'data' => new \DateTime('today')
         ));
         
-        $builder->add('endTime', 'datetime', array(
+        $builder->add('endDate', 'date', array(
             'label' => 'Hasta la fecha',
             'data' => new \DateTime()
+        ));
+        
+        $builder->add('beginTime', 'time', array(
+            'label' => 'Desde el horario',
+            'data' => new \DateTime()
+        ));
+        
+        $builder->add('endTime', 'time', array(
+            'label' => 'Hasta el horario',
+            'data' => new \DateTime()
+        ));
+        
+        $builder->add('searchButton', 'submit', array(
+            'label' => 'Buscar',
+        ));
+        
+        $builder->add('downloadButton', 'submit', array(
+            'label' => 'Descargar como CSV',
         ));
     }
     
