@@ -1,7 +1,7 @@
 <div id="chart_channel_{{ channel.number }}" data-channel-info="{{ {
     'number': channel.number,
-    'beginThreshold': channel.beginThreshold,
-    'endThreshold': channel.endThreshold,
+    'beginThreshold': channel.sensor.convertRawData(channel.beginThreshold),
+    'endThreshold': channel.sensor.convertRawData(channel.endThreshold),
     'sensor': {
         'name': channel.sensor.name,
         'readedDataDescription': channel.sensor.readedDataDescription,
