@@ -44,13 +44,11 @@ Ahora debe ejecutarse un comando de consola que leerá los datos del
 microcontrolador y guardará las lecturas en la base de datos. Este comando se
 ejecuta de la siguiente manera.
 
-    php app/console app:pic:monitor
+    php app/console app:pic:monitor [puerto]
 
-Puede ejecutar este comando para consultar opciones adicionales de este comando,
-tales como el monitor dummy que no requiere que el microcontrolador esté
-presente, entre otras cosas.
+Por ejemplo:
 
-    php app/console help app:pic:monitor
+    php app/console app:pic:monitor COM7
 
 ### Iniciar servidor WebSocket
 
@@ -68,7 +66,7 @@ modo producción.
 Configuración adicional para el desarrollador
 ---------------------------------------------
 
-
+(Volver aquí mañana)
 
 [1]:  http://symfony.com/
 [2]:  http://getcomposer.org/
