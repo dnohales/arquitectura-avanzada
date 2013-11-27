@@ -105,14 +105,18 @@ class Settings
      * @param \Caece\PicBundle\Entity\ChannelReading $reading
      * @return type
      */
-    public function convertReading(ChannelReading $reading)
+    public function convertReading(ChannelReading $reading, $addUnit = false)
     {
         $channel = $this->getChannels()->get($reading->getChannel());
         
         if ($channel === null || $channel->getSensor() === null) {
             return $reading->getRawData();
         } else {
-            return $channel->getSensor()->convertRawData($reading->getRawData());
+            $result = $channel->getSensor()->convertRawData($reading->getRawData());
+            if ($addUnit) {
+                $result .= ' '.$channel->getSensor()->getUnitName();
+            }
+            return $result;
         }
     }
 
