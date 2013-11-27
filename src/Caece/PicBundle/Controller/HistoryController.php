@@ -52,7 +52,7 @@ class HistoryController extends Controller
     private function findReadingsByForm($form)
     {
         $data = $form->getData();
-        return $this->getDoctrine()->getEntityManager()->getRepository('CaecePicBundle:ChannelReading')->findByChannelBetweenDates(
+        return $this->getDoctrine()->getManager()->getRepository('CaecePicBundle:ChannelReading')->findByChannelBetweenDates(
             $data['channel'],
             $data['beginDate'],
             $data['endDate'],
