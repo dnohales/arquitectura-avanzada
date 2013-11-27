@@ -116,16 +116,6 @@ class Service implements MessageComponentInterface
 
     public function onMessage(ConnectionInterface $from, $msg)
     {
-        $decodedMsg = json_decode($msg, true);
-        $msg = array_merge(array('command' => ''), $decodedMsg === null? array():$decodedMsg);
-        
-        if ($msg['command'] === 'getLatestReadings') {
-            $readings = $this->em->getRepository('CaecePicBundle:ChannelReading')->findLatestByChannel();
-            $from->send(json_encode(array(
-                'readings' => $this->serializeReadingList($readings),
-                'settingsWereChanged' => false,
-            )));
-        }
     }
 
     public function onOpen(ConnectionInterface $conn)
