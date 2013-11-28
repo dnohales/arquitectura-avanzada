@@ -28,7 +28,7 @@ class PhpSerialDriver implements DriverInterface
         $this->serial = new PhpSerial();
         
         if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-            $process = new Process('comconfig.exe COM7');
+            $process = new Process('comconfig.exe '.$config['port']);
             $process->setWorkingDirectory($connectinData['binDirectory']);
             $process->run();
             echo '[comconfig] '.$process->getOutput()."\n";
